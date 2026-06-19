@@ -27,14 +27,15 @@
   </header>
 
   <!-- Timeline Cards Section -->
-  <section class="timeline">
+  <div class="timeline-shell">
+    <section class="timeline">
 
     <!-- Card 1: 1968 -->
     <article class="timeline-card">
       <h2>1968</h2>
       <h3>Intel Founded</h3>
       <div class="card-media">
-        <img src="img/1968-real.svg" alt="Illustration of Intel's founding in 1968" />
+        <img src="img/1968-brandnew.svg" alt="Illustration of Intel's founding in 1968" />
         <p>
           Robert Noyce and Gordon Moore rename the newly formed company
           NM Electronics to Intel Corporation, laying the foundation for
@@ -132,7 +133,7 @@
       <h2>2023</h2>
       <h3>Renewable Electricity</h3>
       <div class="card-media">
-        <img src="img/2023-real.svg" alt="Illustration of renewable electricity powering Intel" />
+        <img src="img/2023-brandnew.svg" alt="Illustration of renewable electricity powering Intel" />
         <p>
           The company achieves 99% renewable electricity usage worldwide,
           helping to drastically lower carbon emissions and driving progress
@@ -146,7 +147,7 @@
       <h2>2024</h2>
       <h3>Sustainability Summit</h3>
       <div class="card-media">
-        <img src="img/2024-real.svg" alt="Illustration of a sustainability summit" />
+        <img src="img/2024-brandnew.svg" alt="Illustration of a sustainability summit" />
         <p>
           Intel hosts its first Sustainability Summit, uniting suppliers,
           government officials, and industry leaders to collaborate on
@@ -154,7 +155,74 @@
         </p>
       </div>
     </article>
-  </section>
+    </section>
+    <div class="timeline-scrollbar" aria-hidden="true">
+      <div class="timeline-scrollbar-thumb"></div>
+    </div>
+  </div>
   <p class="timeline-note">Scroll to view timeline | Hover over cards to learn more!</p>
+
+  <script>
+    const timeline = document.querySelector('.timeline');
+    const timelineScrollbar = document.querySelector('.timeline-scrollbar');
+    const timelineThumb = document.querySelector('.timeline-scrollbar-thumb');
+
+    function updateCustomScrollbar() {
+      if (!timelineScrollbar || !timelineThumb) {
+        return;
+      }
+
+      const maxScroll = timeline.scrollWidth - timeline.clientWidth;
+      const trackWidth = timelineScrollbar.clientWidth;
+      const minThumbWidth = 120;
+      const thumbWidth = Math.max(minThumbWidth, Math.round((timeline.clientWidth / timeline.scrollWidth) * trackWidth));
+      const maxThumbLeft = trackWidth - thumbWidth;
+      const thumbLeft = maxScroll > 0 ? Math.round((timeline.scrollLeft / maxScroll) * maxThumbLeft) : 0;
+
+      timelineThumb.style.width = `${thumbWidth}px`;
+      timelineThumb.style.transform = `translateX(${thumbLeft}px)`;
+    }
+
+    function scrollTimelineToThumb(clientX) {
+      const trackRect = timelineScrollbar.getBoundingClientRect();
+      const thumbRect = timelineThumb.getBoundingClientRect();
+      const maxScroll = timeline.scrollWidth - timeline.clientWidth;
+      const maxThumbLeft = trackRect.width - thumbRect.width;
+      const nextThumbLeft = Math.max(0, Math.min(clientX - trackRect.left - thumbRect.width / 2, maxThumbLeft));
+      const nextScrollLeft = maxThumbLeft > 0 ? (nextThumbLeft / maxThumbLeft) * maxScroll : 0;
+
+      timeline.scrollLeft = nextScrollLeft;
+    }
+
+    let isDragging = false;
+
+    if (timelineScrollbar && timelineThumb) {
+      timelineScrollbar.addEventListener('pointerdown', (event) => {
+        isDragging = true;
+        timelineScrollbar.setPointerCapture(event.pointerId);
+        scrollTimelineToThumb(event.clientX);
+      });
+
+      timelineScrollbar.addEventListener('pointermove', (event) => {
+        if (!isDragging) {
+          return;
+        }
+
+        scrollTimelineToThumb(event.clientX);
+      });
+
+      timelineScrollbar.addEventListener('pointerup', () => {
+        isDragging = false;
+      });
+
+      timelineScrollbar.addEventListener('pointercancel', () => {
+        isDragging = false;
+      });
+
+      timeline.addEventListener('scroll', updateCustomScrollbar, { passive: true });
+      window.addEventListener('resize', updateCustomScrollbar);
+      updateCustomScrollbar();
+    }
+  </script>
 </body>
 </html>
