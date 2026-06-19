@@ -1,1 +1,200 @@
-/* Add your CSS here */
+/* Basic page styling */
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Times New Roman", Times, serif;
+	background: #eef5fb;
+	color: #0b1f33;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+/* Hero section with the title sitting inside the blue block */
+.hero {
+	width: 100%;
+	padding: 0;
+}
+
+.hero-logo {
+	width: 120px;
+	display: block;
+}
+
+.hero-logo-badge {
+	width: 150px;
+	height: 150px;
+	margin: -8px auto 18px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.18);
+	border: 4px solid rgba(255, 255, 255, 0.55);
+	box-shadow: 0 10px 24px rgba(0, 52, 120, 0.18);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	backdrop-filter: blur(4px);
+}
+
+.hero-title-block {
+	width: 100%;
+	min-height: 380px;
+	padding: 34px 24px 38px;
+	border-radius: 0;
+	background: linear-gradient(135deg, #9de5ff 0%, #0591e6 44%, #0047a8 100%);
+	box-shadow: 0 18px 40px rgba(0, 52, 120, 0.2);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.hero-title-block h1 {
+	margin: 0;
+	color: #ffffff;
+	font-size: clamp(2.8rem, 5vw, 5.25rem);
+	font-weight: 900;
+	letter-spacing: 0.04em;
+	line-height: 0.95;
+	text-shadow: none;
+}
+
+.hero-title-block p {
+	max-width: 720px;
+	margin: 18px 0 0;
+	font-size: 1.08rem;
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.95);
+}
+
+/* Make the milestones run horizontally */
+.timeline {
+	max-width: 100%;
+	margin: 0;
+	display: flex;
+	gap: 20px;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	padding: 24px;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: 50%;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-gutter: stable both-edges;
+}
+
+.timeline-card {
+	flex: 0 0 320px;
+	scroll-snap-align: center;
+	scroll-snap-stop: always;
+	background: #ffffff;
+	border-radius: 24px;
+	overflow: hidden;
+	box-shadow: 0 12px 30px rgba(10, 31, 58, 0.12);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 18px 34px rgba(10, 31, 58, 0.18);
+}
+
+.timeline-card h2,
+.timeline-card h3 {
+	padding: 0 18px;
+}
+
+.timeline-card h2 {
+	margin: 18px 0 6px;
+	color: #0078d4;
+	font-size: 1.4rem;
+}
+
+.timeline-card h3 {
+	margin: 0 0 14px;
+	font-size: 1.25rem;
+}
+
+.card-media {
+	position: relative;
+	overflow: hidden;
+	margin: 0 18px 18px;
+	border-radius: 18px;
+	background: #dbeeff;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.card-media img {
+	width: 100%;
+	height: 190px;
+	object-fit: cover;
+	transition: transform 0.25s ease;
+}
+
+.card-media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0);
+	transition: background 0.25s ease;
+}
+
+.card-media p {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	padding: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	line-height: 1.5;
+	color: #ffffff;
+	font-size: 1.03rem;
+	opacity: 0;
+	transform: translateY(8px);
+	z-index: 1;
+	transition: opacity 0.18s ease, transform 0.18s ease;
+	pointer-events: none;
+}
+
+.timeline-card:hover .card-media::after,
+.timeline-card:focus-within .card-media::after {
+	background: rgba(0, 0, 0, 0.72);
+}
+
+.timeline-card:hover .card-media p,
+.timeline-card:focus-within .card-media p {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.timeline-card:hover .card-media img,
+.timeline-card:focus-within .card-media img {
+	transform: scale(1.03);
+}
+
+.timeline-note {
+	max-width: 100%;
+	margin: 0;
+	padding: 0 24px 24px;
+	color: #2b4d73;
+	text-align: center;
+	font-size: 0.95rem;
+}
+
+@media (max-width: 760px) {
+	.hero-title-block {
+		min-height: 300px;
+	}
+
+	.timeline-card {
+		flex-basis: 280px;
+	}
+}
